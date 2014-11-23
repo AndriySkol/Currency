@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Currencies_Database", "WindowsFormsApplication1\Currencies_Database.csproj", "{7FD957D3-C166-4AD6-934E-D34670F3A806}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{15264A6D-D865-49E1-898F-AFEF56EEE41A}"
+	ProjectSection(SolutionItems) = preProject
+		WindowsFormsApplication1\bin\Debug\settings.txt = WindowsFormsApplication1\bin\Debug\settings.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7FD957D3-C166-4AD6-934E-D34670F3A806}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FD957D3-C166-4AD6-934E-D34670F3A806}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FD957D3-C166-4AD6-934E-D34670F3A806}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FD957D3-C166-4AD6-934E-D34670F3A806}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

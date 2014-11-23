@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="currencyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="currencies">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="int" />
+          <Property Name="Value" Type="float" />
+          <Property Name="Change" Type="float" />
+          <Property Name="ChangePercent" Type="float" />
+          <Property Name="IsChangeDown" Type="int" />
+          <Property Name="Date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Names">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nchar" MaxLength="20" />
+        </EntityType>
+        <Association Name="FK_currencies_Names">
+          <End Role="Names" Type="Self.Names" Multiplicity="0..1" />
+          <End Role="currencies" Type="Self.currencies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Names">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="currencies">
+              <PropertyRef Name="Name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="currencyModelStoreContainer">
+          <EntitySet Name="currencies" EntityType="Self.currencies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Names" EntityType="Self.Names" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_currencies_Names" Association="Self.FK_currencies_Names">
+            <End Role="Names" EntitySet="Names" />
+            <End Role="currencies" EntitySet="currencies" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="currencyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="currencyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="currencies" EntityType="currencyModel.currencies" />
+          <EntitySet Name="Names" EntityType="currencyModel.Names" />
+          <AssociationSet Name="FK_currencies_Names" Association="currencyModel.FK_currencies_Names">
+            <End Role="Names" EntitySet="Names" />
+            <End Role="currencies" EntitySet="currencies" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="currencies">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="Int32" />
+          <Property Name="Value" Type="Double" />
+          <Property Name="Change" Type="Double" />
+          <Property Name="ChangePercent" Type="Double" />
+          <Property Name="IsChangeDown" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Names" Relationship="currencyModel.FK_currencies_Names" FromRole="currencies" ToRole="Names" />
+        </EntityType>
+        <EntityType Name="Names">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="currencies" Relationship="currencyModel.FK_currencies_Names" FromRole="Names" ToRole="currencies" />
+        </EntityType>
+        <Association Name="FK_currencies_Names">
+          <End Type="currencyModel.Names" Role="Names" Multiplicity="0..1" />
+          <End Type="currencyModel.currencies" Role="currencies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Names">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="currencies">
+              <PropertyRef Name="Name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="currencyModelStoreContainer" CdmEntityContainer="currencyEntities">
+          <EntitySetMapping Name="currencies">
+            <EntityTypeMapping TypeName="currencyModel.currencies">
+              <MappingFragment StoreEntitySet="currencies">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="IsChangeDown" ColumnName="IsChangeDown" />
+                <ScalarProperty Name="ChangePercent" ColumnName="ChangePercent" />
+                <ScalarProperty Name="Change" ColumnName="Change" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Names">
+            <EntityTypeMapping TypeName="currencyModel.Names">
+              <MappingFragment StoreEntitySet="Names">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

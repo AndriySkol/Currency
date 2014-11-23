@@ -1,0 +1,135 @@
+﻿ The first way /*  Database.data.currencies.Add(new currencies
+                {
+                    Name = el.Element("Currency").Value,
+                    Change = Convert.ToDouble(el.Element("Change").Value),
+                    ChangePercent = Convert.ToDouble(el.Element("ChangePercent").Value),
+                    IsChangeDown = Convert.ToInt32(el.Element("IsChangeDown").Value),
+                    Value = Convert.ToDouble(el.Element("Value").Value),
+                    Date = (DateTime)el2
+                });
+                ++i;
+               
+            }*
+               
+			   
+			   Stopwatch!!
+			   
+			     System.Diagnostics.Stopwatch all = new System.Diagnostics.Stopwatch(), 
+                name = new System.Diagnostics.Stopwatch(), 
+                change = new System.Diagnostics.Stopwatch(),
+                changePer = new System.Diagnostics.Stopwatch(), isChangeD
+                = new System.Diagnostics.Stopwatch(), Val = new System.Diagnostics.Stopwatch(), 
+                Dat = new System.Diagnostics.Stopwatch(), 
+                Add = new System.Diagnostics.Stopwatch();
+            i = 0;
+            List <currencies> ar = new List<currencies>();
+            
+            all.Start();
+            foreach (var el in doc.Descendants("Rate"))
+            {
+			 /*  
+				name.Start();
+                var comp = el.Element("Currency").Value;
+
+                var _Name = namesBase.Where(b => b.name == comp).Select(b=>b.ID).FirstOrDefault();
+                name.Stop();
+                change.Start();
+                var _Change = float.Parse(el.Element("Change").Value, System.Globalization.CultureInfo.InvariantCulture);
+                change.Stop();
+                changePer.Start();
+                var _ChangePercent = float.Parse(el.Element("ChangePercent").Value, System.Globalization.CultureInfo.InvariantCulture); 
+                changePer.Stop(); 
+                isChangeD.Start();
+                var _IsChangeDown = Convert.ToInt32(Convert.ToBoolean(el.Element("IsChangeDown").Value)); 
+                isChangeD.Stop(); 
+                Val.Start();
+                var _Value = float.Parse(el.Element("Value").Value, System.Globalization.CultureInfo.InvariantCulture); 
+                Val.Stop();
+                Dat.Start();
+                XElement el2 = (el.Ancestors("Rates")).First().Element("DateTime");
+                var _Date = Convert.ToDateTime(el2.Value);
+                Dat.Stop(); 
+                Add.Start();
+                ar.Add(new currencies
+                { Name = _Name, Change = _Change, ChangePercent = _ChangePercent,Date = _Date, IsChangeDown = _IsChangeDown,  Value = _Value
+
+                }); Add.Stop();
+                i++;
+                if (i > 5000)
+                    break;
+
+                }*/
+				   
+            all.Stop();
+            all.Start();
+            Database.data.Names.AddRange(namesBase);
+
+            Database.data.currencies.AddRange(ar);
+            all.Stop();
+            Database.data.SaveChanges();
+
+
+				Slow way
+				  var comp = el.Element("Currency").Value;
+              
+                XElement el2 = (el.Ancestors("Rates")).First().Element("DateTime");
+               
+                ar.Add(new currencies
+                { Name = Database.data.Names.Where(b => b.name == comp).Select(b=>b.ID).FirstOrDefault(),
+                  Change = float.Parse(el.Element("Change").Value, System.Globalization.CultureInfo.InvariantCulture), 
+                  ChangePercent =float.Parse(el.Element("ChangePercent").Value, System.Globalization.CultureInfo.InvariantCulture),
+                  Date = Convert.ToDateTime(el2.Value), IsChangeDown = Convert.ToInt32(Convert.ToBoolean(el.Element("IsChangeDown").Value)),
+                  Value = float.Parse(el.Element("Value").Value, System.Globalization.CultureInfo.InvariantCulture)
+
+                });
+                i++;
+                if (i > 5000)
+                    break;
+
+                }
+
+
+				Good 
+
+				 foreach (var el in doc.Descendants("Rate"))
+            {
+                var comp = el.Element("Currency").Value;
+
+                XElement el2 = (el.Ancestors("Rates")).First().Element("DateTime");
+                Currency c = new Currency(comp);
+                ar.Add(new currencies
+                {
+                    Name = namesBase.Where(b => b.name == comp).Select(b => b.ID).FirstOrDefault(),
+                    Change = float.Parse(el.Element("Change").Value, System.Globalization.CultureInfo.InvariantCulture),
+                    ChangePercent = float.Parse(el.Element("ChangePercent").Value, System.Globalization.CultureInfo.InvariantCulture),
+                    Date = Convert.ToDateTime(el2.Value),
+                    IsChangeDown = Convert.ToInt32(Convert.ToBoolean(el.Element("IsChangeDown").Value)),
+                    Value = float.Parse(el.Element("Value").Value, System.Globalization.CultureInfo.InvariantCulture)
+
+                });
+                i++;
+                if (i == 100000)
+                    break;
+
+            }
+			
+            all.Stop();
+            all.Start();
+            Database.data.Names.AddRange(namesBase);
+
+            Database.data.currencies.AddRange(ar);
+            all.Stop();
+            Database.data.SaveChanges();
+
+
+
+
+
+
+
+
+
+
+
+
+

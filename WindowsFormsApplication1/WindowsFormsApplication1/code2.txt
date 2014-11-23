@@ -1,0 +1,83 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml.Linq;
+
+
+namespace WindowsFormsApplication1
+{
+    class Database
+    {
+        public static currencyEntities data;
+        static Database()
+        {
+            data = new currencyEntities();
+            //if (Settings.getObj().getShouldLoad())
+            {
+                loadFromXml(Settings.getObj().getXmlAdress());
+            }
+        }
+        static void loadFromXml(string path)
+        {
+
+           var doc = XDocument.Load(path);
+           HashSet<string> names = new HashSet<string>();
+           int i = 0;
+           foreach (var el in doc.Descendants("Rate"))
+           {
+               if (el.Element("Currency") != null)
+               {
+                   names.Add(el.Element("Currency").Value);
+                   
+               }
+                  
+             
+           }
+
+           List<Names> namesBase = new List<Names>();
+           i = 0;
+           foreach(var el in names)
+           {
+                 namesBase.Add(new Names { ID = i, name = el });
+                 ++i;
+           }
+            Database.data.SaveChanges();
+
+           
+            i = 0;
+            List <currencies> ar = new List<currencies>();
+            
+          
+            foreach (var el in doc.Descendants("Rate"))
+            {
+                var comp = el.Element("Currency").Value;
+
+                XElement el2 = (el.Ancestors("Rates")).First().Element("DateTime");
+                Currency c = new Currency(comp);
+                ar.Add(new currencies
+                {
+                    Name = namesBase.Where(b => b.name == comp).Select(b => b.ID).FirstOrDefault(),
+                    Change = float.Parse(el.Element("Change").Value, System.Globalization.CultureInfo.InvariantCulture),
+                    ChangePercent = float.Parse(el.Element("ChangePercent").Value, System.Globalization.CultureInfo.InvariantCulture),
+                    Date = Convert.ToDateTime(el2.Value),
+                    IsChangeDown = Convert.ToInt32(Convert.ToBoolean(el.Element("IsChangeDown").Value)),
+                    Value = float.Parse(el.Element("Value").Value, System.Globalization.CultureInfo.InvariantCulture)
+
+                });
+                i++;
+                if (i == 100000)
+                    break;
+
+            }
+          
+            Database.data.Names.AddRange(namesBase);
+
+            Database.data.currencies.AddRange(ar);
+            all.Stop();
+            Database.data.SaveChanges();
+        }
+    }
+}
